@@ -1,0 +1,22 @@
+server:
+  port: 8030
+
+spring:
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+  data:
+    redis:
+      port: 6379
+      host:
+      timeout: 3000
+      repositories:
+        enabled: false
+
+# mybatis 配置
+mybatis:
+  mapper-locations: classpath:/mybatis-mappers/*
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
