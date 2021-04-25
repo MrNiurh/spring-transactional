@@ -21,10 +21,10 @@ class SpringTransactionalApplicationTests {
      * @return void
      */
     @Test
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = {Exception.class, RuntimeException.class})//A
     @Commit
     public void rightTest() {
-        springTransactionalService.insertOneInformation();
+        springTransactionalService.insertOneInformation();//B
     }
 
     /**
@@ -37,8 +37,11 @@ class SpringTransactionalApplicationTests {
     @Transactional(rollbackFor = Exception.class)
     @Commit
     public void transactionalTest() {
+
         springTransactionalService.insertOneInformation();
         springTransactionalService.errorInsert();
+        springTransactionalService.errorInsert2();//
+
     }
 
     /**

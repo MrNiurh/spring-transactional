@@ -29,14 +29,20 @@ public class SpringTransactionalServiceImpl implements SpringTransactionalServic
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public void errorInsert() {
         springTransactionalMapper.insertOneInformation(new Information("错误新增测试"));
+
+        int a = 1 / 0;
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, rollbackFor = Exception.class)
+    public void errorInsert2() {
+        springTransactionalMapper.insertOneInformation(new Information("错误新增测试2"));
         int a = 1 / 0;
     }
 
     @Override
-    @Transactional(rollbackFor = IOException.class)
     public void callMethodTest() {
         insertOneInformation();
         errorInsert();
