@@ -43,6 +43,7 @@ public class SpringTransactionalServiceImpl implements SpringTransactionalServic
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void callMethodTest() {
         insertOneInformation();
         errorInsert();

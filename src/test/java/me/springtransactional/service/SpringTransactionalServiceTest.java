@@ -1,18 +1,31 @@
-package me.springtransactional;
+package me.springtransactional.service;
 
+import me.springtransactional.mapper.SpringTransactionalMapper;
 import me.springtransactional.service.serviceImpl.SpringTransactionalServiceImpl;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-class SpringTransactionalApplicationTests {
+import javax.annotation.Resource;
 
-    @Autowired
+/**
+ * @Author: RuiHan.Niu
+ * @Date: 2021/4/26
+ * @Description:
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class SpringTransactionalServiceTest {
+
+    @Resource
     SpringTransactionalServiceImpl springTransactionalService;
+
+    @Resource
+    SpringTransactionalMapper springTransactionalMapper;
 
     /**
      * 正常新增
@@ -21,10 +34,10 @@ class SpringTransactionalApplicationTests {
      * @return void
      */
     @Test
-    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = {Exception.class, RuntimeException.class})//A
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Commit
     public void rightTest() {
-        springTransactionalService.insertOneInformation();//B
+        springTransactionalService.insertOneInformation();
     }
 
     /**
@@ -37,11 +50,8 @@ class SpringTransactionalApplicationTests {
     @Transactional(rollbackFor = Exception.class)
     @Commit
     public void transactionalTest() {
-
         springTransactionalService.insertOneInformation();
-        springTransactionalService.errorInsert();
-        springTransactionalService.errorInsert2();//
-
+        springTransactionalService.errorInsert2();
     }
 
     /**
